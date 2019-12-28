@@ -1,3 +1,6 @@
 # mail-list
 
-* Tabela com informações de um arquivo .json organizados em ordem alfabética com campos de busca pelo nome e pelo email
+Lista de Email com campo de busca:
+* tabela alimentada por um arquivo .json
+* campos de busca pelo _nome_ e _email_
+* ordenado alfabeticamente
