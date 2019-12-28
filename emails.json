@@ -1,0 +1,12 @@
+{
+	"list": [
+		{
+			"name": "Walter Merscher",
+			"email": "merscher.walter@email.com"
+		},
+		{
+			"name": "Exemplo",
+			"email": "exemplo@mail.com"
+		}
+	]
+}
