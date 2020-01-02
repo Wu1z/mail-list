@@ -1,17 +1,18 @@
 // 	Request the Json File
 var request = new XMLHttpRequest();
-request.open("GET", "emails.json", true);
-request.responseType = "text";
-request.send();
 
-// 	Parse the Json File and Load in the page
-request.onload = function() {
-	const objText = request.response;
-	const obj = JSON.parse(objText);
-	
-	console.log(obj);
-	showList(obj);
-}
+request.onreadystatechange = function() {
+	if(this.readyState == 4 && this.status == 200) {
+		request.onload = function() {
+			const objText = request.response;
+			const obj = JSON.parse(objText);
+
+			showList(obj);
+		}
+	}
+};
+request.open("GET", "mails.json", true);
+request.send();
 
 //	Alphabetic sort 
 function compare(a, b) {	
