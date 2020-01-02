@@ -11,7 +11,7 @@ request.onreadystatechange = function() {
 		}
 	}
 };
-request.open("GET", "emails.json", true);
+request.open("GET", "mails.json", true);
 request.send();
 
 //	Alphabetic sort 
