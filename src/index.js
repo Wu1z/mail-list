@@ -14,87 +14,57 @@ request.onreadystatechange = function() {
 request.open("GET", "mails.json", true);
 request.send();
 
-//	Alphabetic sort 
-function compare(a, b) {	
-	const nameA = a.name.toUpperCase();
-	const nameB = b.name.toUpperCase();
-	
-	let comparison = 0;
-	if(nameA > nameB) {
-		comparison = 1;
-	} else if (nameA < nameB) {
-		comparison = -1;
-	}
-	return comparison;
-}
-
-// 	Show Json List and create tags for the table
+// Show Json List
 function showList(jsonObj) {
 	const list = jsonObj.list;
-	list.sort(compare);		//Alphabetic sort the object array from json
+
+	//Alphabetic sort the object array from json
+	list.sort((a, b) => {
+		const nameA = a.name.toUpperCase();
+		const nameB = b.name.toUpperCase();
+		
+		let comparison = 0;
+		if(nameA > nameB) {
+			comparison = 1;
+		} else if (nameA < nameB) {
+			comparison = -1;
+		}
+		return comparison;	
+	});		
 	
-	for (let i = 0; i < list.length; i++){	
-		const table = document.querySelector("table");
+	const myTable = document.querySelector("table");
+	const tbody = document.getElementsByTagName("tbody")[0];
+	
+	for (let i = 0; i < list.length; i++){		
+
+		// Create table elements (tr, td)
 		const myTr = document.createElement("tr");
 		const myTdName = document.createElement("td");
 		const myTdEmail = document.createElement("td");
+
+		//Create text nodes for name and email 
+		const namenode = document.createTextNode(list[i].name);
+		const mailnode = document.createTextNode(list[i].email);
 		
-		myTdName.textContent = list[i].name;
-		myTdEmail.textContent = list[i].email;
+		myTdName.appendChild(namenode);
+		myTdEmail.appendChild(mailnode);
 		
 		myTr.appendChild(myTdName);
 		myTr.appendChild(myTdEmail);
-		table.appendChild(myTr);
-	}
-}
+		tbody.appendChild(myTr);
 
-// Search Input by Name
-function searchName() {
-	let input, tr, td, filter, txtValue, table;
+	};
 	
-	input = document.getElementById("inputName");
-	filter = input.value.toUpperCase();
-	
-	table = document.getElementById("listTable");
-	tr = table.getElementsByTagName("tr");
-	
-	for(let i = 0; i < tr.length; i++){
-		td = tr[i].getElementsByTagName("td")[0];
-		
-		if(td){
-			txtValue = td.textContent || td.innerText;
-			
-			if(txtValue.toUpperCase().indexOf(filter) > -1){
-				tr[i].style.display = "";
-			} else { 
-				tr[i].style.display = "none"
-			}
-		}
-	}
-}
+	myTable.appendChild(tbody);
+};
 
-//	Search Input by Mail
-function searchMail() {
-	let input, tr, td, filter, txtValue, table;
+//Search name or email from table
+$(document).ready(function() {
+	$("#myInput").on("keyup", function() {
+		const value = $(this).val().toUpperCase(); 
 
-	input = document.getElementById("inputMail");
-	filter = input.value.toUpperCase();
-
-	table = document.getElementById("listTable");
-	tr = table.getElementsByTagName("tr");
-
-	for(let i = 0; i < tr.length; i++) {
-		td = tr[i].getElementsByTagName("td")[1];
-
-		if(td) {
-			txtValue = td.TextContent || td.innerText;
-
-			if(txtValue.toUpperCase().indexOf(filter) > -1){
-				tr[i].style.display = "";
-			} else {
-				tr[i].style.display = "none"
-			}
-		}
-	}
-}
-
+		$("tr").filter(function(){
+			$(this).toggle($(this).text().toUpperCase().indexOf(value) > -1)
+		});
+	});
+});
